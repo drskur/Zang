@@ -10,6 +10,7 @@ lastUrlComponent url =
 
 downloadFile :: String -> String -> IO String
 downloadFile url filepath = do
+  putStrLn $ "Downloading " ++ url ++ " to " ++ filepath
   response <- httpLBS $ parseRequest_ url
   L8.writeFile filepath (getResponseBody response)
   return filepath

@@ -23,8 +23,13 @@ getImageContents doc =
   cursor $// findNodes &| (T.unpack . T.concat . attribute "src")
   where cursor = fromDocument doc
 
--- findTitleNodes :: Cursor -> [Cursor]
--- findTitleNodes = attributeIs "id" "post" &/ attributeIs "class" "title"
+getImageTitle :: Document -> String
+getImageTitle doc =
+  head $ cursor $// findTitleNodes &| (T.unpack . T.concat . content)
+  where cursor = fromDocument doc
+
+findTitleNodes :: Cursor -> [Cursor]
+findTitleNodes = attributeIs "id" "post" &/ attributeIs "class" "title" >=> child
 
 findNodes :: Cursor -> [Cursor]
 findNodes =
